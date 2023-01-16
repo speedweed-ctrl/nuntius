@@ -1,9 +1,14 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:nuntius/main_page.dart';
+import 'package:nuntius/user_s.dart';
+
+
+FirebaseAuth auth=FirebaseAuth.instance;
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,6 +16,23 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
+Future<void> SignIn(mail,pass) async {
+  
+
+  try{
+  final cred=await FirebaseAuth.instance.signInWithEmailAndPassword(email: mail, password: pass);
+  debugPrint(cred.toString());
+
+  }on FirebaseAuthException catch(e){
+    if(e.code=='user-not-found'){
+      debugPrint('user not found');
+    }else if(e.code=='wrong-password'){
+      debugPrint('wron password ');
+    }
+  }
+}
+ 
 
 class _LoginState extends State<Login> {
   final mail_controller=TextEditingController();
@@ -96,6 +118,18 @@ class _LoginState extends State<Login> {
                   onTap: () {
                     debugPrint(mail_controller.text);
                     debugPrint(pass_controller.text);
+                    Future<void> rout()async{
+                      await SignIn(mail_controller.text, pass_controller.text);
+                       final user= await FirebaseAuth.instance.currentUser;
+                      
+                      if(user!=null){
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context)=>MainPage())
+                        );
+                      }
+
+                    }
+                    rout();
                   },
                  child :Container(
                   padding: EdgeInsets.all(20),
@@ -154,7 +188,7 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text('Sign in with Google',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                              SizedBox(width: 15,),
+                              SizedBox(width: 30,),
                               Image.asset(
                                 'assets/google_logo.png',
                                 scale: 30,
@@ -163,12 +197,88 @@ class _LoginState extends State<Login> {
                             ],
                           ),
                         ),
-                      
                       ),
                     ),
 
-                  )
+                  ),
 
+                  SizedBox(height: 25,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                    child: InkWell(
+
+                      child: Container(
+                        padding: EdgeInsets.all(13.2),
+                        decoration: BoxDecoration(color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Sign in with Facebook',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                              SizedBox(width: 15,),
+                              Image.asset(
+                                'assets/fb_logo.png',
+                                scale: 30,
+                              ),
+                              
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ),
+
+                  SizedBox(height: 25,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                    child: InkWell(
+
+                      child: Container(
+                        padding: EdgeInsets.all(13.2),
+                        decoration: BoxDecoration(color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Sign in with Apple',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                              SizedBox(width: 50,),
+                              Image.asset(
+                                'assets/aplle_logo.png',
+                                scale: 15,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 40,),
+                Row(
+                    mainAxisAlignment:MainAxisAlignment.center,
+                    children: [
+                      Text('Not a member ? ',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[700])),
+                      InkWell(
+                        onTap:() {
+                          //print(get_data());
+                          /*Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context)=>const RegisterPage())
+                          );*/
+                        },
+                        child:Text('REGISTER NOW',style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromRGBO(84, 104, 255,1))),
+                      )
+                    ],
+                  ),
             ],
           ),
         ),
