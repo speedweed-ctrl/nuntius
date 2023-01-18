@@ -58,6 +58,7 @@ class NavDrawer extends StatelessWidget {
                     );
                   }
               }
+              logout();
               },
           ),
         ],

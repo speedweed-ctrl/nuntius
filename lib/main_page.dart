@@ -127,7 +127,51 @@ class _MainPageState extends State<MainPage> {
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: (){
-
+                showModalBottomSheet<void>(context: context, 
+                builder:(BuildContext context ){
+                  return SizedBox(
+                    height: 2000,
+                    child:DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(24, 25, 32, 1),
+                      ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 25,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(37, 42, 52, 1),
+                                border: Border.all(color: Color.fromRGBO(36, 37, 38, 1)),
+                                borderRadius: BorderRadius.circular(50)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: TextField(
+                                  //controller: pass_controller,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Group name',
+                                    hintStyle:TextStyle(color:Colors.white)
+                                  ),
+                                  style: TextStyle(color: Colors.white),  
+                      
+                    ),
+                  ),
+                ),
+              ),
+                          
+                        ],
+                      ),
+                    ),
+                    )
+                  );
+                }
+                
+                );
               },
               backgroundColor: Color.fromRGBO(84, 104, 255,1),
               child: Icon(Icons.add),
